@@ -1,58 +1,70 @@
-title: "STEP TEMPLATE"
-summary: A short summary of the step. Don't make it too long ;)
+title: "EMLauncher Uploader"
+summary: Upload to EMLaumcher
 description: |-
-  This is a Step template.
-  Contains everything what's required for a valid Stepman managed step.
-
-  A Step's description (and generally any `description` property)
-  can be a [Markdown](https://en.wikipedia.org/wiki/Markdown) formatted text.
-
-  To create your own Step:
-
-  1. Create a new repository on GitHub
-  2. Copy the files from this folder into your repository
-  3. That's all, you can use it on your own machine
-  4. Once you're happy with it you can share it with others.
-website: https://github.com/...
-source_code_url: https://github.com/...
-support_url: https://github.com/.../issues
-host_os_tags:
-  - osx-10.10
+  This step uploads the application binary file created by bitrise to your EMLauncher.
+website: https://github.com/yagi2/bitrise-step-EMLauncher-uploader
+source_code_url: https://github.com/yagi2/bitrise-step-EMLauncher-uploader
+support_url: https://github.com/yagi2/bitrise-step-EMLauncher-uploader/issues
 project_type_tags:
   - ios
   - android
   - xamarin
 type_tags:
-  - script
-is_requires_admin_user: true
+  - emlauncher
+  - uploader
+is_requires_admin_user: false
 is_always_run: false
 is_skippable: false
-deps:
-  brew:
-  - name: git
-  - name: wget
-  apt_get:
-  - name: git
-  - name: wget
-run_if: ""
 inputs:
-  - example_step_input: Default Value - you can leave this empty if you want to
+  - base_url: "$EMLAUNCHER_BASE_URL"
     opts:
-      title: "Example Step Input"
-      summary: Summary. No more than 2-3 sentences.
+      title: "EMLauncher base url"
+      summary: EMLauncher base url.
       description: |
-        Description of this input.
-
-        Can be Markdown formatted text.
+        Your EMLauncher base url.  
+        example) https://emlauncher.example.com
       is_expand: true
       is_required: true
-      value_options: []
-outputs:
-  - EXAMPLE_STEP_OUTPUT:
-    opts:
-      title: "Example Step Output"
-      summary: Summary. No more than 2-3 sentences.
-      description: |
-        Description of this output.
 
-        Can be Markdown formatted text.
+  - api_key: "$EMLAUNCHER_API_KEY"
+    opts:
+      title: "EMLauncher API key"
+      summary: "EMLauncher API key"
+      description: |
+        API key which you want to upload app project.
+      is_expand: true
+      is_required: true
+
+  - file_path: "$FILE_PATH"
+    opts:
+      title: "File path"
+      summary: File path
+      description: |
+        File path which you want to upload.  
+          
+        Android exmaple) $BITRISE_APK_PATH  
+        iOS example) $BITRISE_IPA_PATH  
+      is_expand: true
+      is_required: true
+
+  - title: "$FILE_TITLE"
+    opts:
+      title: "File title"
+      summary: File title
+      description: |
+        File title displayed on EMLauncher app page.  
+        example) Android_app_1.0.0(1)productRelease#1  
+          
+        recommend setting environment variables in the previous step when use build number and so on.  
+      is_expand: true
+      is_required: true
+
+  - tags: "$FILE_TAGS"
+    opts:
+      title: "File tags"
+      summary: File tags
+      description: |
+        File tags displayd on EMLauncher app page.  
+        example) forRelease
+      is_expand: true
+      is_required: true
